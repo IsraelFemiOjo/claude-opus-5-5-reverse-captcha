@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude Opus 5.5 Reverse CAPTCHA</title>
+<meta name="description" content="Are you still human? Six questions about lol, laundry chairs and 47 open tabs. No email. Mild emotional exposure.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Are you still human? The Reverse CAPTCHA">
+<meta property="og:description" content="Six questions about lol, laundry chairs and 47 open tabs. Get your Certificate of Humanity.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Are you still human? The Reverse CAPTCHA">
+<meta name="twitter:description" content="Six questions about lol, laundry chairs and 47 open tabs. Get your Certificate of Humanity.">
+<meta name="twitter:creator" content="@israelfemiojo">
+<meta name="theme-color" content="#F2ECDF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='1' y='1' width='30' height='30' fill='%23D9693B' stroke='%231A1714' stroke-width='2'/%3E%3Cpath d='M16 6v20M6 16h20M8.9 8.9l14.2 14.2M23.1 8.9 8.9 23.1' stroke='%231A1714' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+  :root{
+    --paper:#F2ECDF;
+    --paper-2:#E7DDC8;
+    --ink:#1A1714;
+    --ink-2:#5F574C;
+    --clay:#D9693B;
+    --clay-deep:#B4532A;
+    --sun:#F4C542;
+    --serif:"Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{min-height:100%}
+  body{
+    margin:0;
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(rgba(26,23,20,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,23,20,.045) 1px, transparent 1px);
+    background-size:24px 24px;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .08  0 0 0 0 .05  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.16;mix-blend-mode:multiply;
+  }
+  .wrap{max-width:600px;margin:0 auto;padding-inline:16px;padding-block:20px 36px}
+  .doc{position:relative;background:var(--paper);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+
+  /* document header */
+  .doc-head{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:10px 14px;border-bottom:2px dashed var(--ink);
+    font:500 10.5px/1.35 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .doc-head b{color:var(--ink);font-weight:600}
+  .brand{display:flex;align-items:center;gap:10px;min-width:0}
+  .mark{flex:none;width:30px;height:30px;background:var(--clay);border:2px solid var(--ink);display:grid;place-items:center}
+  .mark svg{width:18px;height:18px}
+  .formno{text-align:right}
+  #headStatus{display:inline-block;margin-top:2px}
+
+  section{padding:22px 18px 26px}
+  @media (min-width:520px){section{padding:32px 32px 34px}}
+  .enter{animation:enter .28s ease-out both}
+  @keyframes enter{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .label{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+
+  /* intro */
+  .eyebrow{display:flex;align-items:stretch;gap:10px;font:600 12px/1.35 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+  .eyebrow::before{content:"";width:8px;background:var(--clay);border:1.5px solid var(--ink)}
+  h1{
+    font-family:var(--serif);font-weight:400;text-transform:uppercase;
+    font-size:clamp(3.5rem, 18vw, 6.6rem);line-height:.84;letter-spacing:-.015em;
+    margin:20px 0 22px;
+  }
+  .hl{background:linear-gradient(transparent 60%, var(--sun) 60%, var(--sun) 90%, transparent 90%);padding-inline:.04em}
+  .lede{font-family:var(--serif);font-size:1.55rem;line-height:1.15;margin:0 0 12px;max-width:26ch;text-wrap:balance}
+  .lede-2{font-size:1.02rem;line-height:1.5;margin:0 0 26px;max-width:40ch;color:var(--ink)}
+  .note{margin:14px 0 0;font:500 11.5px/1.4 var(--mono);letter-spacing:.06em;color:var(--ink-2);text-align:center}
+
+  .btn{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;
+    min-height:60px;padding:16px 18px;border:2px solid var(--ink);background:var(--clay);color:var(--ink);
+    font:600 14.5px/1.1 var(--mono);letter-spacing:.09em;text-transform:uppercase;text-align:left;
+    box-shadow:4px 4px 0 var(--ink);cursor:pointer;transition:transform .08s ease, box-shadow .08s ease, background .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:hover{background:#E0784B}
+  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .btn.alt{background:var(--paper)}
+  .btn.alt:hover{background:#FBF6EC}
+  .btn .arr{font-family:var(--sans);font-size:20px;line-height:1}
+  .linkbtn{
+    background:none;border:0;padding:12px 4px;width:100%;cursor:pointer;color:var(--ink);
+    font:600 13px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;
+  }
+  button:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+  .mrz{
+    margin:26px -18px -26px;padding:10px 18px;background:var(--paper-2);border-top:2px dashed var(--ink);
+    font:500 clamp(9.5px, 2.7vw, 12.5px)/1.55 var(--mono);letter-spacing:.08em;word-break:break-all;color:var(--ink);
+  }
+  @media (min-width:520px){.mrz{margin:30px -32px -34px;padding:12px 32px}}
+
+  /* question */
+  .qtop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .count{font:600 30px/1 var(--mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .count span{color:var(--ink-2);font-weight:400}
+  .chip{display:inline-block;background:var(--sun);border:1.5px solid var(--ink);padding:5px 8px;font:600 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  .seg{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:14px}
+  .seg i{height:9px;border:1.5px solid var(--ink);background:var(--paper)}
+  .seg i.done{background:var(--ink)}
+  .seg i.now{background:repeating-linear-gradient(135deg,var(--clay) 0 4px,var(--paper) 4px 7px)}
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.95rem, 8.4vw, 2.75rem);line-height:1.02;letter-spacing:-.01em;margin:22px 0 22px;text-wrap:balance}
+  h2:focus{outline:none}
+  .answers{display:grid;gap:10px}
+  .ans{
+    display:grid;grid-template-columns:46px 1fr;width:100%;min-height:62px;padding:0;
+    border:2px solid var(--ink);background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;
+    font:inherit;transition:background .12s, transform .08s;-webkit-tap-highlight-color:transparent;
+  }
+  .ans:hover{background:#FBF6EC}
+  .ans:active{transform:translate(2px,2px)}
+  .ans .key{display:grid;place-items:center;border-right:2px solid var(--ink);background:var(--paper-2);font:600 15px/1 var(--mono)}
+  .ans .txt{padding:14px 14px;font-size:1.02rem;line-height:1.35;align-self:center}
+  .ans.picked{background:var(--clay)}
+  .ans.picked .key{background:var(--ink);color:var(--paper)}
+  .ans.dim{opacity:.45}
+  .qfoot{margin:18px 0 0;font:500 11px/1.45 var(--mono);letter-spacing:.06em;color:var(--ink-2)}
+
+  /* timer */
+  .clock{
+    display:grid;place-items:center;width:100%;max-width:100%;aspect-ratio:1 / .62;max-height:280px;padding:18px;
+    border:2px solid var(--ink);background:var(--clay);color:var(--ink);cursor:pointer;
+    box-shadow:6px 6px 0 var(--ink);font-family:var(--serif);font-size:clamp(1.8rem, 8vw, 2.5rem);line-height:1;text-transform:uppercase;text-align:center;
+    transition:transform .08s ease, box-shadow .08s ease;-webkit-tap-highlight-color:transparent;
+  }
+  .clock:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--ink)}
+  .clock.running{background:var(--ink);color:var(--sun);font-size:clamp(4.2rem, 24vw, 7.5rem);letter-spacing:.02em}
+  .clock small{display:block;margin-top:12px;font:500 11px/1.3 var(--mono);letter-spacing:.12em;color:inherit;opacity:.75}
+
+  /* processing */
+  .proc h2{margin-top:6px}
+  .log{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+  .log li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--ink);font:500 12.5px/1.35 var(--mono);letter-spacing:.03em}
+  .log li b{font-weight:600;color:var(--clay-deep);white-space:nowrap}
+
+  /* certificate */
+  .cert{
+    position:relative;border:2px solid var(--ink);padding:18px 16px 16px;
+    background-color:var(--paper);
+    background-image:repeating-radial-gradient(circle at 105% -5%, transparent 0 11px, rgba(217,105,59,.075) 11px 12px);
+    box-shadow:inset 0 0 0 5px var(--paper), inset 0 0 0 6.5px var(--ink);
+  }
+  @media (min-width:520px){.cert{padding:24px 24px 20px}}
+  .cert-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font:600 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 4px 10px;border-bottom:2px solid var(--ink)}
+  .cert-top span:last-child{color:var(--ink-2);font-weight:500}
+  .cert-title{font-family:var(--serif);font-size:clamp(1.75rem, 7.5vw, 2.3rem);line-height:1;margin:16px 4px 6px}
+  .score-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 4px}
+  .score{font-family:var(--serif);font-size:clamp(6rem, 32vw, 9.5rem);line-height:.85;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .score em{font-style:normal;color:var(--clay);font-size:.55em;letter-spacing:0}
+  .stamp{
+    flex:none;width:112px;height:112px;border-radius:50%;border:3.5px solid var(--clay-deep);
+    display:grid;place-content:center;text-align:center;color:var(--clay-deep);transform:rotate(-13deg);
+    box-shadow:inset 0 0 0 5px var(--paper), inset 0 0 0 7px var(--clay-deep);mix-blend-mode:multiply;
+    font:600 9.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  }
+  .stamp .big{font:700 20px/1 var(--sans);letter-spacing:.02em;margin:4px 0}
+  .stamp .big.long{font-size:15px}
+  .stamp.in{animation:stamp .42s cubic-bezier(.2,1.4,.4,1) both .15s}
+  @keyframes stamp{from{transform:rotate(-24deg) scale(1.7);opacity:.001}to{transform:rotate(-13deg) scale(1);opacity:1}}
+  .moe{padding:8px 4px 0;font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;color:var(--ink-2)}
+  .verdict{margin:18px 4px 8px;font:700 1.4rem/1.25 var(--sans);letter-spacing:.01em;text-transform:uppercase}
+  .verdict span{background:var(--sun);padding:1px 6px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .desc{margin:0 4px 18px;font-size:1.02rem;line-height:1.5;max-width:44ch}
+  .measures{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink);border:2px solid var(--ink)}
+  .m{background:var(--paper);padding:10px 10px 11px;min-width:0}
+  .m .label{font-size:9.5px}
+  .m .val{margin-top:6px;font:600 12.5px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;overflow-wrap:anywhere}
+  .m .val span{background:var(--sun);padding:1px 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .m .val.warn span{background:var(--clay)}
+  .cert-foot{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end;margin:16px 4px 0}
+  .kv{font:500 10.5px/1.55 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+  .kv b{color:var(--ink);font-weight:600}
+  .sig{text-align:right}
+  .sig .name{font-family:var(--serif);font-style:italic;font-size:2rem;line-height:.9;padding:0 6px 2px;border-bottom:1.5px solid var(--ink)}
+  .sig .label{font-size:9.5px;margin-top:5px}
+  .cert .mrz{margin:16px -16px -16px;padding:9px 16px;border-top:2px dashed var(--ink);font-size:clamp(8px, 2.3vw, 12px);letter-spacing:.02em}
+  @media (min-width:520px){.cert .mrz{margin:18px -24px -20px;padding:10px 24px}}
+  @media (max-width:340px){.measures{grid-template-columns:1fr}.cert-foot{grid-template-columns:1fr}.sig{text-align:left}}
+
+  .actions{display:grid;gap:12px;margin-top:22px}
+  .status{min-height:1.4em;margin:4px 0 0;font:500 12px/1.4 var(--mono);letter-spacing:.04em;text-align:center;color:var(--ink-2)}
+  .panel{border:2px solid var(--ink);background:var(--paper-2);padding:14px;display:grid;gap:12px}
+  .panel .label{color:var(--ink)}
+  .panel blockquote{margin:0;padding:12px;background:var(--paper);border:1.5px solid var(--ink);font-size:.98rem;line-height:1.45}
+  .panel .row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .pbtn{
+    display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 8px;border:2px solid var(--ink);
+    background:var(--paper);color:var(--ink);font:600 11.5px/1.1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center;cursor:pointer;
+  }
+  .pbtn:hover{background:var(--sun)}
+  .panel img{display:block;width:100%;max-width:100%;border:2px solid var(--ink)}
+  @media (max-width:360px){.panel .row{grid-template-columns:1fr}}
+
+  .colophon a{color:var(--ink);font-weight:600;text-underline-offset:3px}
+  .colophon{margin:18px 0 0;text-align:center;font:500 10.5px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+  @media (prefers-reduced-motion: reduce){
+    .enter,.stamp.in{animation:none}
+    .btn,.ans,.clock{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main class="doc" id="doc">
+    <header class="doc-head">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="3" stroke-linecap="round"><path d="M12 2.5v19M2.5 12h19M5.3 5.3l13.4 13.4M18.7 5.3 5.3 18.7"/></svg>
+        </span>
+        <span>Claude Lab<br><b>Dept. of Human Behaviour</b></span>
+      </div>
+      <div class="formno">Form RC/5.5<br><b id="headStatus">Unverified</b></div>
+    </header>
+
+    <!-- INTRO -->
+    <section id="s-intro" class="enter">
+      <div class="eyebrow"><span>Claude Opus 5.5<br>Reverse CAPTCHA</span></div>
+      <h1>Are you<br>still <span class="hl">human?</span></h1>
+      <p class="lede">I’m Claude Opus 5.5. I’ve been told I understand humans better now.</p>
+      <p class="lede-2">Before I get too confident, I need you to prove you still understand yourselves better than I do.</p>
+      <button class="btn" id="startBtn" type="button"><span>Prove I’m human</span><span class="arr" aria-hidden="true">→</span></button>
+      <p class="note">6 questions · no email · mild emotional exposure</p>
+      <div class="mrz" aria-hidden="true">RC&lt;OPUS55&lt;&lt;ARE&lt;YOU&lt;STILL&lt;HUMAN&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>SUBJECT&lt;UNKNOWN&lt;&lt;TABS&lt;OPEN&lt;47&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+    </section>
+
+    <!-- QUESTIONS 1-5 -->
+    <section id="s-q" hidden>
+      <div class="qtop">
+        <div class="count" id="qCount" aria-live="polite">01<span> / 06</span></div>
+        <span class="chip" id="qCat">Social calibration</span>
+      </div>
+      <div class="seg" id="qSeg" aria-hidden="true"></div>
+      <h2 id="qText" tabindex="-1"></h2>
+      <div class="answers" id="qList"></div>
+      <p class="qfoot">Answer honestly. I will know. I will not actually know.</p>
+    </section>
+
+    <!-- QUESTION 6 -->
+    <section id="s-timer" hidden>
+      <div class="qtop">
+        <div class="count">06<span> / 06</span></div>
+        <span class="chip">Internal clock</span>
+      </div>
+      <div class="seg" id="tSeg" aria-hidden="true"></div>
+      <h2 id="tText" tabindex="-1">Without counting, stop the timer when five seconds have passed.</h2>
+      <button class="clock" id="clockBtn" type="button"><span id="clockLabel">Start the five‑second test</span></button>
+      <p class="qfoot" id="clockNote">There is no visible clock. That is the whole test.</p>
+    </section>
+
+    <!-- PROCESSING -->
+    <section id="s-proc" class="proc" hidden>
+      <span class="chip">Reviewing your file</span>
+      <h2>One moment. I’m checking your answers against everything I know about people.</h2>
+      <ul class="log" id="log"></ul>
+    </section>
+
+    <!-- RESULT -->
+    <section id="s-result" hidden>
+      <article class="cert" id="cert" aria-labelledby="certTitle">
+        <div class="cert-top"><span>Claude Opus 5.5 Human Check</span><span id="certNo">No. RC55</span></div>
+        <div class="cert-title" id="certTitle">Certificate of Humanity</div>
+        <div class="score-row">
+          <div class="score" id="certScore">0<em>%</em></div>
+          <div class="stamp" id="stamp" aria-hidden="true"><span id="stTop">Verified</span><span class="big" id="stBig">Human</span><span id="stBot">No notes</span></div>
+        </div>
+        <div class="moe">HUMANITY SCORE · MARGIN OF HUMAN ERROR ± 2%</div>
+        <p class="verdict"><span id="certVerdict"></span></p>
+        <p class="desc" id="certDesc"></p>
+        <div class="measures">
+          <div class="m"><div class="label">Emotional latency</div><div class="val" id="m1"><span></span></div></div>
+          <div class="m"><div class="label">Laundry compliance</div><div class="val" id="m2"><span></span></div></div>
+          <div class="m"><div class="label">“LOL” authenticity</div><div class="val" id="m3"><span></span></div></div>
+          <div class="m"><div class="label">Robot suspicion</div><div class="val" id="m4"><span></span></div></div>
+        </div>
+        <div class="cert-foot">
+          <div class="kv">
+            Verification <b id="kvNo"></b><br>
+            Issued <b id="kvDate"></b><br>
+            Five seconds took <b id="kvClock"></b>
+          </div>
+          <div class="sig"><div class="name">Claude</div><div class="label">Examiner, Opus 5.5</div></div>
+        </div>
+        <div class="mrz" id="certMrz" aria-hidden="true"></div>
+      </article>
+
+      <div class="actions">
+        <button class="btn" id="dlBtn" type="button"><span>Download my certificate</span><span class="arr" aria-hidden="true">↓</span></button>
+        <div class="panel" id="dlPanel" hidden>
+          <div class="label" id="dlLabel">Your certificate</div>
+          <img id="dlImg" alt="Your Certificate of Humanity">
+        </div>
+        <button class="btn alt" id="shareBtn" type="button"><span>Share my result</span><span class="arr" aria-hidden="true">↗</span></button>
+        <div class="panel" id="sharePanel" hidden>
+          <div class="label">Share text</div>
+          <blockquote id="shareText"></blockquote>
+          <div class="row">
+            <button class="pbtn" id="copyBtn" type="button">Copy text</button>
+            <a class="pbtn" id="xLink" href="https://x.com" target="_blank" rel="noopener">Post on X</a>
+            <a class="pbtn" id="liLink" href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+        <button class="linkbtn" id="retakeBtn" type="button">Retake test</button>
+        <p class="status" id="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+  <p class="colophon">Built by <a href="https://x.com/israelfemiojo" target="_blank" rel="noopener">@israelfemiojo</a> · Your answers never leave this page<br>Unofficial fan experiment. Not affiliated with Anthropic.</p>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // humanity weights
+  const VL=.1, L=.3, M=.55, H=.8, X=1;
+  const QS = [
+    {cat:'Social calibration', q:'Someone replies “lol” with no emoji. What happened?',
+     a:[['They laughed out loud.',VL],['They acknowledged receipt of the message.',M],['They want the conversation to end.',H],['Impossible to know without examining their punctuation history.',X]]},
+    {cat:'Temporal honesty', q:'When you text “I’m on my way,” where are you?',
+     a:[['Already outside.',VL],['Looking for my keys.',H],['Still deciding what to wear.',H],['I sent it so they would stop asking.',X]]},
+    {cat:'Domestic behaviour', q:'What is the chair in your bedroom currently being used for?',
+     a:[['Sitting.',VL],['Clothes that are not clean but not dirty.',X],['A temporary storage system.',H],['There is no visible chair anymore.',X]]},
+    {cat:'Digital archaeology', q:'Why do you have 47 browser tabs open?',
+     a:[['Every tab has a purpose.',L],['I might need them later.',X],['Closing them feels like admitting defeat.',X],['I do not know where the sound is coming from.',H]]},
+    {cat:'Emotional linguistics', q:'What does “no worries” mean after you caused several worries?',
+     a:[['There are genuinely no worries.',VL],['There are worries, but we will be civil.',X],['This will be remembered.',H],['It depends on how quickly they typed it.',H]]}
+  ];
+
+  const CATS = [
+    {min:82, name:'PAINFULLY HUMAN.', code:'PAINFULLY',
+     desc:'You understand subtext, misuse furniture and maintain a flexible relationship with time. I can imitate you, but I cannot explain the 47 tabs.',
+     stamp:['Verified','Human','No notes']},
+    {min:68, name:'HUMAN, WITH SUSPICIOUS EFFICIENCY.', code:'EFFICIENT',
+     desc:'You still possess the essential human qualities: emotional ambiguity, digital clutter and confidence unsupported by timing accuracy.',
+     stamp:['Approved','Human','With notes']},
+    {min:52, name:'VERIFICATION INCONCLUSIVE.', code:'INCONCLUSIVE',
+     desc:'You may be human. You may also be three productivity apps wearing a large coat. Further observation is recommended.',
+     stamp:['Status','Pending','Observe']},
+    {min:0, name:'NICE TRY, CHATBOT.', code:'CHATBOT',
+     desc:'Your answers were alarmingly reasonable. Please ignore one notification, misplace your keys and try again.',
+     stamp:['Not','Convinced','Try again']}
+  ];
+
+  const state = {i:0, answers:[], t:null, running:false, t0:0, locked:false, result:null, blob:null, blobUrl:null};
+  const screens = ['intro','q','timer','proc','result'];
+  const headStatus = $('#headStatus');
+
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const inApp = /FBAN|FBAV|Instagram|LinkedInApp|Twitter|Line\/|Snapchat|TikTok|musical_ly|Bytedance/i.test(ua);
+  const pageUrl = () => location.href.split('#')[0];
+
+  function show(name){
+    screens.forEach(s=>{
+      const el = $('#s-'+s);
+      if(s===name){ el.hidden=false; el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
+      else el.hidden=true;
+    });
+    const top = $('#doc').getBoundingClientRect().top;
+    if(top < 0) window.scrollTo({top: window.scrollY + top - 12, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  const pad = n => String(n).padStart(2,'0');
+
+  function renderSeg(el, idx){
+    el.innerHTML='';
+    for(let k=0;k<6;k++){ const i=document.createElement('i'); if(k<idx) i.className='done'; else if(k===idx) i.className='now'; el.appendChild(i); }
+  }
+
+  function renderQ(){
+    const q = QS[state.i];
+    $('#qCount').innerHTML = pad(state.i+1)+'<span> / 06</span>';
+    $('#qCat').textContent = q.cat;
+    $('#qText').textContent = q.q;
+    renderSeg($('#qSeg'), state.i);
+    const list = $('#qList'); list.innerHTML='';
+    q.a.forEach((a,idx)=>{
+      const b = document.createElement('button');
+      b.type='button'; b.className='ans'; b.id='ans-'+state.i+'-'+idx;
+      b.innerHTML = '<span class="key">'+'ABCD'[idx]+'</span><span class="txt"></span>';
+      b.querySelector('.txt').textContent = a[0];
+      b.addEventListener('click', ()=>pick(idx));
+      list.appendChild(b);
+    });
+  }
+
+  function pick(idx){
+    if(state.locked) return;
+    state.locked = true;
+    const btns = [...$('#qList').children];
+    btns.forEach((b,k)=> b.classList.add(k===idx ? 'picked' : 'dim'));
+    state.answers[state.i] = idx;
+    setTimeout(()=>{
+      state.locked = false;
+      state.i++;
+      if(state.i < QS.length){ renderQ(); show('q'); $('#qText').focus({preventScroll:true}); }
+      else startTimerScreen();
+    }, reduce ? 120 : 240);
+  }
+
+  function startTimerScreen(){
+    state.running=false; state.t=null;
+    const btn = $('#clockBtn');
+    btn.classList.remove('running');
+    $('#clockLabel').innerHTML = 'Start the five‑second test';
+    $('#clockNote').textContent = 'There is no visible clock. That is the whole test.';
+    renderSeg($('#tSeg'), 5);
+    show('timer');
+    btn.focus({preventScroll:true});
+  }
+
+  $('#clockBtn').addEventListener('click', ()=>{
+    const now = performance.now();
+    if(!state.running){
+      state.running = true; state.t0 = now;
+      $('#clockBtn').classList.add('running');
+      $('#clockLabel').innerHTML = 'Stop';
+      $('#clockNote').textContent = 'Timer running. Trust your body. Your body is not sure either.';
+      headStatus.textContent = 'Timing you';
+    } else {
+      if(now - state.t0 < 250) return; // ignore accidental double tap
+      state.running = false;
+      state.t = (now - state.t0)/1000;
+      runProcessing();
+    }
+  });
+
+  function runProcessing(){
+    headStatus.textContent = 'Processing';
+    const log = $('#log'); log.innerHTML='';
+    const lines = [
+      ['Reviewing punctuation history','DONE'],
+      ['Estimating distance from keys','FAR'],
+      ['Locating chair beneath clothes','PARTIAL'],
+      ['Counting tabs','STOPPED AT 47'],
+      ['Checking whether to allow 100%','DENIED']
+    ];
+    show('proc');
+    const step = reduce ? 160 : 420;
+    lines.forEach((l,k)=>{
+      setTimeout(()=>{
+        const li = document.createElement('li');
+        li.innerHTML = '<span></span><b></b>';
+        li.firstChild.textContent = l[0]; li.lastChild.textContent = l[1];
+        log.appendChild(li);
+      }, step*k + 150);
+    });
+    setTimeout(()=>{ compute(); renderResult(); }, step*lines.length + 450);
+  }
+
+  function timerScore(t){
+    const e = Math.abs(t-5);
+    if(t < 1) return .15;
+    if(e < .05) return .55;   // too precise to be a person
+    if(e <= .4) return 1;
+    if(e <= .8) return .9;
+    if(e <= 1.5) return .7;
+    if(e <= 2.5) return .45;
+    return .2;
+  }
+
+  function verifNo(){
+    const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const r = new Uint32Array(8);
+    (window.crypto||{}).getRandomValues ? crypto.getRandomValues(r) : r.forEach((_,k)=>r[k]=Math.random()*1e9);
+    let s=''; r.forEach(v=> s+=A[v%A.length]);
+    return 'RC55-'+s.slice(0,4)+'-'+s.slice(4);
+  }
+
+  function compute(){
+    const qa = state.answers.map((a,k)=>QS[k].a[a][1]);
+    const avg = qa.reduce((x,y)=>x+y,0)/qa.length;
+    const ts = timerScore(state.t);
+    const raw = .8*avg + .2*ts;
+    const norm = Math.min(1, Math.max(0, (raw - .11)/.89));
+    const score = Math.min(98, Math.max(35, Math.round(35 + norm*63)));
+    const cat = CATS.find(c=>score>=c.min);
+    const [q1,,q3,,q5] = state.answers;
+    const e = Math.abs(state.t-5);
+    const m1 = ['Alarmingly low','Diplomatic','Cinematic','Overclocked'][q5];
+    const m2 = ['Suspiciously clear','Compromised','Structural','Beyond recovery'][q3];
+    const m3 = ['Too literal','Functional','Context aware','Forensic'][q1];
+    let m4, warn=false;
+    if(e < .05 && state.t >= 1){ m4='Timer too perfect'; warn=true; }
+    else if(score>=82) m4='Negligible';
+    else if(score>=68) m4='Under review';
+    else if(score>=52){ m4='Elevated'; warn=true; }
+    else { m4='Confirmed, lovingly'; warn=true; }
+    const d = new Date();
+    const date = d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase().replace('SEPT','SEP');
+    const ymd = d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+    const no = verifNo();
+    const fill = (s,n)=> (s + '<'.repeat(n)).slice(0,n);
+    const mrz = [
+      fill('RC<OPUS55<<HUMAN<CHECK<<SCORE<'+score+'<<', 44),
+      fill(no.replace(/-/g,'<')+'<<'+cat.code+'<<'+ymd+'<<', 44)
+    ];
+    state.result = {score, cat, m:[m1,m2,m3,m4], warn, date, no, clock: state.t.toFixed(2)+' s', mrz};
+  }
+
+  function renderResult(){
+    const r = state.result;
+    headStatus.textContent = 'Issued';
+    $('#certNo').textContent = 'No. '+r.no;
+    $('#certScore').innerHTML = r.score+'<em>%</em>';
+    $('#certVerdict').textContent = r.cat.name;
+    $('#certDesc').textContent = r.cat.desc;
+    ['#m1','#m2','#m3','#m4'].forEach((id,k)=>{ $(id+' span').textContent = r.m[k]; });
+    $('#m4').classList.toggle('warn', r.warn);
+    $('#kvNo').textContent = r.no;
+    $('#kvDate').textContent = r.date;
+    $('#kvClock').textContent = r.clock;
+    $('#stTop').textContent = r.cat.stamp[0];
+    $('#stBig').textContent = r.cat.stamp[1];
+    $('#stBig').classList.toggle('long', r.cat.stamp[1].length > 6);
+    $('#stBot').textContent = r.cat.stamp[2];
+    $('#certMrz').innerHTML = r.mrz.map(l=>l.replace(/</g,'&lt;')).join('<br>');
+    const st = $('#stamp'); st.classList.remove('in'); void st.offsetWidth; st.classList.add('in');
+    $('#dlPanel').hidden = true; $('#sharePanel').hidden = true; $('#status').textContent='';
+    if(state.blobUrl){ URL.revokeObjectURL(state.blobUrl); state.blobUrl=null; }
+    state.blob = null;
+    const text = shareText();
+    $('#shareText').textContent = text+' '+pageUrl();
+    $('#xLink').href = 'https://x.com/intent/post?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(pageUrl());
+    $('#liLink').href = 'https://www.linkedin.com/feed/?shareActive=true&text='+encodeURIComponent(text+' '+pageUrl());
+    show('result');
+  }
+
+  function shareText(){
+    return 'I scored '+state.result.score+'% human on Claude Opus 5.5’s Reverse CAPTCHA. Apparently being late, overthinking ‘lol’ and owning a laundry chair finally count as qualifications.';
+  }
+
+  /* ---------- certificate PNG ---------- */
+  const C = {paper:'#F2ECDF', paper2:'#E7DDC8', ink:'#1A1714', ink2:'#5F574C', clay:'#D9693B', clayDeep:'#B4532A', sun:'#F4C542'};
+  const F = {serif:'"Instrument Serif", Georgia, serif', sans:'"Instrument Sans", Helvetica, Arial, sans-serif', mono:'"IBM Plex Mono", Menlo, monospace'};
+
+  function wrap(x, text, maxW){
+    const words = text.split(' '); const lines=[]; let cur='';
+    words.forEach(w=>{ const t = cur ? cur+' '+w : w; if(x.measureText(t).width > maxW && cur){ lines.push(cur); cur=w; } else cur=t; });
+    if(cur) lines.push(cur);
+    return lines;
+  }
+  function fit(x, text, weightSize, family, size, maxW){
+    let s=size; x.font = weightSize.replace('{s}', s)+' '+family;
+    while(x.measureText(text).width > maxW && s > 10){ s-=2; x.font = weightSize.replace('{s}', s)+' '+family; }
+    return s;
+  }
+
+  async function drawCert(){
+    try{
+      await Promise.all([
+        document.fonts.load('400 100px "Instrument Serif"'),
+        document.fonts.load('italic 400 60px "Instrument Serif"'),
+        document.fonts.load('700 56px "Instrument Sans"'),
+        document.fonts.load('400 30px "Instrument Sans"'),
+        document.fonts.load('600 26px "IBM Plex Mono"'),
+        document.fonts.load('500 22px "IBM Plex Mono"')
+      ]);
+    }catch(e){}
+    const r = state.result;
+    const W=1080, Hh=1350, L=84, R=W-84, CW=R-L;
+    const c = document.createElement('canvas'); c.width=W; c.height=Hh;
+    const x = c.getContext('2d');
+
+    x.fillStyle=C.paper; x.fillRect(0,0,W,Hh);
+    // security rings
+    x.save(); x.strokeStyle='rgba(217,105,59,0.085)'; x.lineWidth=2;
+    for(let rad=30; rad<1500; rad+=24){ x.beginPath(); x.arc(W+40, -40, rad, 0, Math.PI*2); x.stroke(); }
+    x.restore();
+    // grain
+    const g = document.createElement('canvas'); g.width=g.height=200;
+    const gx = g.getContext('2d'); const id = gx.createImageData(200,200);
+    for(let p=0;p<id.data.length;p+=4){ if(Math.random()<.55){ id.data[p]=26; id.data[p+1]=20; id.data[p+2]=14; id.data[p+3]=Math.random()*30; } }
+    gx.putImageData(id,0,0);
+    x.fillStyle = x.createPattern(g,'repeat'); x.fillRect(0,0,W,Hh);
+
+    // frame
+    x.strokeStyle=C.ink; x.lineWidth=6; x.strokeRect(36,36,W-72,Hh-72);
+    x.lineWidth=2; x.strokeRect(50,50,W-100,Hh-100);
+
+    // header band
+    x.fillStyle=C.clay; x.fillRect(51,51,W-102,94);
+    x.fillStyle=C.ink; x.fillRect(51,145,W-102,3);
+    // mark
+    x.save(); x.translate(L+18, 98); x.strokeStyle=C.ink; x.lineWidth=5; x.lineCap='round';
+    for(let k=0;k<4;k++){ x.rotate(Math.PI/4); x.beginPath(); x.moveTo(-18,0); x.lineTo(18,0); x.stroke(); }
+    x.restore();
+    x.fillStyle=C.ink; x.textBaseline='middle';
+    x.font='600 28px '+F.mono; x.textAlign='left';
+    x.fillText('CLAUDE OPUS 5.5 REVERSE CAPTCHA', L+52, 99);
+    x.textAlign='right'; x.font='600 20px '+F.mono; x.fillText('BUILT BY @ISRAELFEMIOJO', R, 99);
+    x.textAlign='left'; x.textBaseline='alphabetic';
+
+    // title
+    fit(x, 'Certificate of Humanity', '400 {s}px', F.serif, 86, CW);
+    x.fillStyle=C.ink; x.fillText('Certificate of Humanity', L, 250);
+    x.font='500 22px '+F.mono; x.fillStyle=C.ink2;
+    x.fillText('CLAUDE OPUS 5.5 HUMAN CHECK  ·  ISSUED '+r.date, L, 294);
+    x.fillStyle=C.ink; x.fillRect(L,318,CW,3);
+
+    // score
+    x.font='500 22px '+F.mono; x.fillStyle=C.ink2; x.fillText('HUMANITY SCORE', L, 368);
+    x.font='400 250px '+F.serif; x.fillStyle=C.ink;
+    const num = String(r.score); x.fillText(num, L-6, 560);
+    const nw = x.measureText(num).width;
+    x.font='400 140px '+F.serif; x.fillStyle=C.clay; x.fillText('%', L-6+nw+4, 560);
+    x.font='500 20px '+F.mono; x.fillStyle=C.ink2; x.fillText('MARGIN OF HUMAN ERROR ± 2%', L, 600);
+
+    // stamp
+    x.save(); x.translate(R-128, 455); x.rotate(-0.23); x.globalAlpha=.92;
+    x.strokeStyle=C.clayDeep; x.fillStyle=C.clayDeep;
+    x.lineWidth=7; x.beginPath(); x.arc(0,0,128,0,Math.PI*2); x.stroke();
+    x.lineWidth=3; x.beginPath(); x.arc(0,0,110,0,Math.PI*2); x.stroke();
+    x.textAlign='center'; x.textBaseline='middle';
+    x.font='600 22px '+F.mono; x.fillText(r.cat.stamp[0].toUpperCase().split('').join(' '), 0, -50);
+    fit(x, r.cat.stamp[1].toUpperCase(), '700 {s}px', F.sans, 54, 176);
+    x.fillText(r.cat.stamp[1].toUpperCase(), 0, 6);
+    x.font='600 18px '+F.mono; x.fillText(r.cat.stamp[2].toUpperCase(), 0, 58);
+    x.fillText('★', -92, 6); x.fillText('★', 92, 6);
+    x.restore(); x.textAlign='left'; x.textBaseline='alphabetic';
+
+    // verdict
+    x.font='700 54px '+F.sans;
+    const vLines = wrap(x, r.cat.name, CW-16);
+    let y = 672;
+    vLines.forEach(line=>{
+      const w = x.measureText(line).width;
+      x.fillStyle=C.sun; x.fillRect(L-4, y-46, w+16, 60);
+      x.fillStyle=C.ink; x.fillText(line, L+4, y);
+      y += 66;
+    });
+    // description
+    x.font='400 30px '+F.sans; x.fillStyle=C.ink;
+    const dLines = wrap(x, r.cat.desc, CW);
+    y = y - 66 + 60;
+    dLines.forEach(line=>{ x.fillText(line, L, y); y += 42; });
+
+    // measurements grid
+    const gTop = Math.max(y - 42 + 32, 900);
+    const cellW = (CW-3)/2, cellH = 88;
+    const labels = ['EMOTIONAL LATENCY','LAUNDRY COMPLIANCE','“LOL” AUTHENTICITY','ROBOT SUSPICION'];
+    x.fillStyle=C.ink; x.fillRect(L-3, gTop-3, CW+6, cellH*2+9);
+    labels.forEach((lab,k)=>{
+      const cx = L + (k%2)*(cellW+3), cy = gTop + Math.floor(k/2)*(cellH+3);
+      x.fillStyle=C.paper; x.fillRect(cx, cy, cellW, cellH);
+      x.font='500 19px '+F.mono; x.fillStyle=C.ink2; x.fillText(lab, cx+20, cy+32);
+      const v = r.m[k].toUpperCase();
+      fit(x, v, '600 {s}px', F.mono, 28, cellW-44);
+      const vw = x.measureText(v).width;
+      x.fillStyle = (k===3 && r.warn) ? C.clay : C.sun;
+      x.fillRect(cx+14, cy+44, vw+12, 34);
+      x.fillStyle=C.ink; x.fillText(v, cx+20, cy+70);
+    });
+
+    // footer
+    const fy = gTop + cellH*2 + 6 + 44;
+    x.font='500 21px '+F.mono; x.fillStyle=C.ink2;
+    x.fillText('VERIFICATION ', L, fy);
+    let vw0 = x.measureText('VERIFICATION ').width;
+    x.font='600 21px '+F.mono; x.fillStyle=C.ink; x.fillText(r.no, L+vw0, fy);
+    x.font='500 21px '+F.mono; x.fillStyle=C.ink2;
+    x.fillText('FIVE SECONDS TOOK ', L, fy+30);
+    vw0 = x.measureText('FIVE SECONDS TOOK ').width;
+    x.font='600 21px '+F.mono; x.fillStyle=C.ink; x.fillText(r.clock.toUpperCase(), L+vw0, fy+30);
+    // signature
+    x.textAlign='right';
+    x.font='italic 400 58px '+F.serif; x.fillStyle=C.ink; x.fillText('Claude', R-8, fy+6);
+    x.fillRect(R-230, fy+16, 230, 2);
+    x.font='500 17px '+F.mono; x.fillStyle=C.ink2; x.fillText('EXAMINER, OPUS 5.5', R, fy+40);
+    x.textAlign='left';
+
+    // MRZ band
+    const mTop = Hh-51-84;
+    x.fillStyle=C.paper2; x.fillRect(51, mTop, W-102, 84);
+    x.fillStyle=C.ink;
+    for(let dx=51; dx<W-51; dx+=18){ x.fillRect(dx, mTop, 10, 3); }
+    x.font='500 25px '+F.mono;
+    const step = CW/44;
+    r.mrz.forEach((line,li)=>{
+      for(let k=0;k<line.length;k++){ x.fillText(line[k], L + k*step, mTop+36+li*32); }
+    });
+
+    return new Promise(res=> c.toBlob(b=>res(b), 'image/png'));
+  }
+
+  async function download(){
+    const st = $('#status');
+    const btn = $('#dlBtn'); btn.disabled = true;
+    st.textContent = 'Printing your certificate…';
+    try{
+      if(!state.blob) state.blob = await drawCert();
+      if(!state.blobUrl) state.blobUrl = URL.createObjectURL(state.blob);
+      if(isIOS || inApp){
+        showPreview(isIOS ? 'Press and hold the certificate, then tap Save to Photos.' : 'Press and hold the certificate to save it.');
+      } else {
+        const a = document.createElement('a');
+        a.href = state.blobUrl;
+        a.download = 'humanity-certificate-'+state.result.score+'.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        st.textContent = 'Certificate downloaded. Check your downloads.';
+      }
+    }catch(e){
+      st.textContent = 'The certificate did not print. Try again.';
+    }
+    btn.disabled = false;
+  }
+  function showPreview(msg){
+    $('#dlImg').src = state.blobUrl;
+    $('#dlLabel').textContent = 'Your certificate · ' + msg;
+    $('#dlPanel').hidden = false;
+    $('#status').textContent = msg;
+  }
+
+  async function share(){
+    const text = shareText();
+    const url = pageUrl();
+    const st = $('#status');
+    if(navigator.share){
+      try{
+        let data = {title:'Claude Opus 5.5 Reverse CAPTCHA', text, url};
+        try{
+          if(!state.blob) state.blob = await drawCert();
+          const file = new File([state.blob], 'humanity-certificate-'+state.result.score+'.png', {type:'image/png'});
+          if(navigator.canShare && navigator.canShare({files:[file]})) data = {files:[file], text: text+' '+url};
+        }catch(e){}
+        await navigator.share(data);
+        st.textContent = 'Shared. The humans have been informed.';
+        return;
+      }catch(err){
+        if(err && err.name === 'AbortError'){ return; }
+      }
+    }
+    $('#sharePanel').hidden = false;
+    st.textContent = '';
+  }
+
+  async function copyText(){
+    const text = shareText()+' '+pageUrl(); const st = $('#status');
+    try{ await navigator.clipboard.writeText(text); st.textContent = 'Copied. Paste it somewhere with an audience.'; }
+    catch(e){
+      const sel = window.getSelection(); const range = document.createRange();
+      range.selectNodeContents($('#shareText')); sel.removeAllRanges(); sel.addRange(range);
+      st.textContent = 'Text selected. Copy it with your device’s copy command.';
+    }
+  }
+
+  function reset(){
+    state.i=0; state.answers=[]; state.t=null; state.running=false; state.locked=false; state.result=null; state.blob=null;
+    $('#dlPanel').hidden = true;
+    if(state.blobUrl){ URL.revokeObjectURL(state.blobUrl); state.blobUrl=null; }
+    headStatus.textContent = 'Unverified';
+    show('intro');
+    $('#startBtn').focus({preventScroll:true});
+  }
+
+  $('#startBtn').addEventListener('click', ()=>{
+    state.i=0; state.answers=[];
+    headStatus.textContent = 'Under examination';
+    renderQ(); show('q'); $('#qText').focus({preventScroll:true});
+  });
+  $('#dlBtn').addEventListener('click', download);
+  $('#shareBtn').addEventListener('click', share);
+  $('#copyBtn').addEventListener('click', copyText);
+  $('#retakeBtn').addEventListener('click', reset);
+
+  document.addEventListener('keydown', e=>{
+    if($('#s-q').hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    const idx = ['a','b','c','d'].indexOf(k) > -1 ? ['a','b','c','d'].indexOf(k) : ['1','2','3','4'].indexOf(k);
+    if(idx > -1){ e.preventDefault(); pick(idx); }
+  });
+})();
+</script>
+</body>
+</html>
